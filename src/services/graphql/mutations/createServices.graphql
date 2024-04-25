@@ -1,0 +1,5 @@
+  mutation CreateService($projectId: String!, $dockerImage: String!) {
+    serviceCreate(input: { projectId: $projectId, source: { image: $dockerImage } }) {
+      id
+    }
+  }
