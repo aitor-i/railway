@@ -1,34 +1,15 @@
 'use server'
 import { gql } from '@apollo/client';
 import { getApolloClient } from './apollo-client';
+import { FetchedProjects, Project } from '@/services/graphql/graphql-types';
 
-interface Project {
+interface ProjectRes {
   name: string,
   id: string
 }
-export interface Service {
-  __typename: string,
-  node: {
-    __typename: string,
-    id: string,
-    name: string
-  }
-}
-
-interface Projectt {
-  __typename: string,
-  node: {
-    __typename: string,
-    id: string,
-    name: string,
-    services: { __typename: string, edges: any[] },
-    plugins: { __typename: string, edges: [] },
-    environments: { __typename: 'ProjectEnvironmentsConnection', edges: any[] }
-  }
-}
 
 const FETCH_PROJECTS_QUERY = gql`
-  query {
+query fetchProjects {
     me {
       projects {
         edges {
@@ -64,22 +45,20 @@ const FETCH_PROJECTS_QUERY = gql`
       }
     }
   }
-`;
+`
 
-export async function fetchAllProjects(): Promise<Project[]> {
+export async function fetchAllProjects(): Promise<ProjectRes[]> {
   try {
     const client = await getApolloClient();
     const response = await client.query({
       query: FETCH_PROJECTS_QUERY,
     });
 
-    const enviroments = response.data.me.projects.edges.map((project: Projectt) => {
+    const projects: FetchedProjects = response.data
 
-      return project.node.environments
-    })
+    console.log(projects.me.projects.edges.map(p => p.node.services))
 
-    console.log("Env: ", enviroments.map((e: any) => e.edges.map((ee: any) => ee.node)))
-    return response.data.me.projects.edges.map((project: any) => ({
+    return projects.me.projects.edges.map((project) => ({
       id: project.node.id,
       name: project.node.name
 
