@@ -4255,20 +4255,8 @@ export enum WorkflowStatus {
   Running = 'Running'
 }
 
-export type CreateServiceMutationVariables = Exact<{
-  projectId: Scalars['String']['input'];
-  dockerImage: Scalars['String']['input'];
-}>;
+export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
+export type FetchedServices = Array<{ __typename?: 'ProjectServicesConnectionEdge', node: { __typename?: 'Service', id: string, name: string } }>
 
-export type CreateServiceMutation = { __typename?: 'Mutation', serviceCreate: { __typename?: 'Service', id: string } };
-
-export type FetchProjectsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FetchProjectsQuery = { __typename?: 'Query', me: { __typename?: 'User', projects: { __typename?: 'UserProjectsConnection', edges: Array<{ __typename?: 'UserProjectsConnectionEdge', node: { __typename?: 'Project', id: string, name: string, services: { __typename?: 'ProjectServicesConnection', edges: Array<{ __typename?: 'ProjectServicesConnectionEdge', node: { __typename?: 'Service', id: string, name: string } }> }, plugins: { __typename?: 'ProjectPluginsConnection', edges: Array<{ __typename?: 'ProjectPluginsConnectionEdge', node: { __typename?: 'Plugin', id: string, name: PluginType } }> }, environments: { __typename?: 'ProjectEnvironmentsConnection', edges: Array<{ __typename?: 'ProjectEnvironmentsConnectionEdge', node: { __typename?: 'Environment', id: string, name: string } }> } } }> } } };
-
-export type FetchServicesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FetchServicesQuery = { __typename?: 'Query', me: { __typename?: 'User', projects: { __typename?: 'UserProjectsConnection', edges: Array<{ __typename?: 'UserProjectsConnectionEdge', node: { __typename?: 'Project', id: string, name: string, services: { __typename?: 'ProjectServicesConnection', edges: Array<{ __typename?: 'ProjectServicesConnectionEdge', node: { __typename?: 'Service', id: string, name: string } }> } } }> } } };
+export type FetchedProjects = { __typename?: 'Query', me: { __typename?: 'User', projects: { __typename?: 'UserProjectsConnection', edges: Array<{ __typename?: 'UserProjectsConnectionEdge', node: { __typename?: 'Project', id: string, name: string, services: { __typename?: 'ProjectServicesConnection', edges: FetchedServices }, environments: { __typename?: 'ProjectEnvironmentsConnection', edges: Array<{ __typename?: 'ProjectEnvironmentsConnectionEdge', node: { __typename?: 'Environment', id: string, name: string } }> } } }> } } };
