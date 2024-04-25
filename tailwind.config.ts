@@ -13,6 +13,9 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      boxShadow: {
+        'custom-spread': '0 0 30px hsla(0, 0%, 30%, 0.25)',
+      },
       colors: {
         foreground: 'hsl(0, 0%, 100%)',
         background: 'hsl(250, 24%, 9%)',
