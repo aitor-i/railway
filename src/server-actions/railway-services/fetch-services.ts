@@ -3,26 +3,7 @@
 import { gql } from '@apollo/client';
 import { getApolloClient } from './apollo-client';
 import { getUniqueServices } from '@/application/utils/getUniqueServices/getUniqueServices';
-
-
-export interface Service {
-  __typename: string,
-  node: {
-    __typename: string,
-    id: string,
-    name: string
-  }
-}
-
-interface Project {
-  __typename: string,
-  node: {
-    __typename: string,
-    id: string,
-    name: string,
-    services: Service[]
-  }
-}
+import { FetchedProjects, Project } from '@/services/graphql/graphql-types';
 
 const FETCH_PROJECTS_QUERY = gql`
   query {
@@ -47,7 +28,7 @@ const FETCH_PROJECTS_QUERY = gql`
   }
 `;
 
-export async function getServices(projectId: string): Promise<any[]> {
+export async function getServices(projectId: string) {
   try {
     console.log(projectId)
     const client = await getApolloClient()
@@ -55,11 +36,14 @@ export async function getServices(projectId: string): Promise<any[]> {
       query: FETCH_PROJECTS_QUERY,
     });
 
-    const services = response.data.me.projects.edges.filter((project: Project) => project.node.id == projectId)[0].node.services.edges
+    const projects: FetchedProjects = response.data
 
+    const project = projects.me.projects.edges.filter(project => project.node.id === projectId)[0]
+
+    const services = project.node.services.edges;
     const uniqueServces = getUniqueServices(services)
-    console.log("uniqueServces", uniqueServces)
-    return services;
+
+    return { uniqueServces, project };
 
   } catch (error) {
     console.error('Error fetching containers:', error);
