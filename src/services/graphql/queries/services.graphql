@@ -1,0 +1,20 @@
+  query fetchServices {
+    me {
+      projects {
+        edges {
+          node {
+            id
+            name
+            services {
+              edges {
+                node {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
